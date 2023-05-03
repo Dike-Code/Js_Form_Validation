@@ -1,0 +1,201 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Js | Form Validation</title>
+   </head>
+   
+   <style>
+      * {
+         box-sizing: border-box;
+         margin: 0;
+         padding: 0;
+      }
+
+      .wrapper {
+         background: #d8d6d6;
+         width: 100%;
+         height: 100vh;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+      }
+
+      .form {
+         background: #fff;
+         width:80%;
+         max-width:880px;
+         padding: 20px 50px;
+      }
+
+      .form-con{
+         display: flex;
+         flex-flow: column;
+         justify-content: space-between;
+         align-items: center;
+         gap:5px;
+      }
+
+      input {
+         outline: none;
+      }
+
+      input[type='text'],
+      input[type='email'] {
+         width: 100%;
+         padding: 10px;
+         margin: 5px auto;
+      }
+
+      .btn {
+         background: brown;
+         color: #fff;
+         padding: 10px 15px;
+      }
+
+      .row50.error input {
+         border-color: red;
+      }
+
+      .row50.success input {
+         border-color: #2ae42a;
+      }
+
+      .row50.error small {
+         color: red;
+         transition: all 0.5s ease;
+      }
+
+      .row50.success small {
+         color: #2ae42a;
+         transition: 0.5s ease;
+      }
+   </style>
+   <body>
+      <div class="wrapper">
+         <form action="" class="form" method="get">
+            <h4 class="survey">Form Validate</h4>
+            <div class="form-con">
+            <div class="row50" style="width: 100%">
+               <div class="name" style="width: 100%">
+                  <input type="text" name="name" id="user" placeholder="Name" />
+                  <small></small>
+               </div>
+               <div class="mail" style="width: 100%">
+                  <input type="email" name="name" id="em" placeholder="email" />
+                  <small></small>
+               </div>
+            </div>
+            <div class="row50" style="width: 100%">
+               <div class="name" style="width: 100%">
+                  <input
+                     type="text"
+                     name="name"
+                     id="ocp"
+                     placeholder="Occupation"
+                  />
+                  <small></small>
+               </div>
+               <div class="name" style="width: 100%">
+                  <input
+                     type="text"
+                     name="name"
+                     id="acm"
+                     placeholder="Accomodation"
+                  />
+                  <small></small>
+               </div>
+            </div>
+            <div class="row50" style="width: 100%">
+               <div class="name" style="width: 100%">
+                  <input
+                     type="text"
+                     name="name"
+                     id="level"
+                     placeholder="Level"
+                  />
+                  <small></small>
+               </div>
+               <div class="name" style="width: 100%">
+                  <input
+                     type="text"
+                     name="name"
+                     id="sch"
+                     placeholder="School"
+                  />
+                  <small></small>
+               </div>
+            </div>
+            </div>
+            
+            <button type="submit" class="btn">Send</button>
+         </form>
+      </div>
+      <script>
+         const form = document.querySelector('.form');
+         const user = document.querySelector('#user');
+         const em = document.querySelector('#em');
+         const ocp = document.querySelector('#ocp');
+         const acm = document.querySelector('#acm');
+         const level = document.querySelector('#level');
+         const sch = document.querySelector('#sch');
+
+         let showError = (input, message) => {
+            const formField = input.parentElement;
+            const small = formField.querySelector('small');
+            formField.className = 'row50 error';
+            small.innerText = message;
+         };
+         let showSuccess = (input, message) => {
+            const formField = input.parentElement;
+            const small = formField.querySelector('small');
+            formField.className = 'row50 success';
+            small.innerText = message;
+         };
+
+         function itsRequired(inputArr) {
+            let required = false
+            inputArr.forEach((input) => {
+               if (input.value.trim() === '') {
+                  showError(input, `${inputName(input)} is required`);
+                  required = true;
+               } else {
+                  showSuccess(input, '');
+               }
+            });
+
+            return required;
+         }
+
+         function checkLength(inputArr, min, max){
+             for(const input of inputArr){
+               if (input.value.trim() === '') {
+                  showError(input, `${inputName(input)} is required`);
+            }
+            else if(input.value.length < min){
+               showError(input, `${inputName(input)} must be at least ${min} characters`);
+            } 
+            else if(input.value.length > max){
+               showError(input, `${inputName(input)} must be at least ${max} characters`);
+            } else{
+               showSuccess(input, '')
+            }
+             }
+         }
+
+         function inputName(input) {
+            return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+         }
+
+         form.addEventListener('submit', (e) => {
+            e.preventDefault();
+           if(!itsRequired([user, em, ocp, acm, level, sch]));
+            checkLength([user, acm, ocp, level, sch], 3, 6);
+         });
+      </script>
+   </body>
+</html>
